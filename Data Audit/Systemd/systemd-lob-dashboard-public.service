@@ -1,0 +1,17 @@
+[Unit]
+Description=Public LOB capture dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lob
+Group=lob
+WorkingDirectory=/opt/lob_system/dashboard_public
+Environment=STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+ExecStart=/opt/lob_system/venv/bin/streamlit run /opt/lob_system/dashboard_public/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+[Unit]
+Description=Trade raw capture - Binance BTCUSDT primary
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lob
+Group=lob
+WorkingDirectory=/opt/lob_system
+ExecStart=/opt/lob_system/venv/bin/python /opt/lob_system/scripts/live_trade_capture.py --exchange binance --storage-stream binance_trades --symbol BTCUSDT --binance-stream trade --rotate-hours 12 --root /opt/lob_system
+Restart=always
+RestartSec=10
+KillSignal=SIGTERM
+TimeoutStopSec=120
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

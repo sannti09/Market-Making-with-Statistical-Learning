@@ -1,0 +1,11 @@
+[Unit]
+Description=Download Binance Vision BTCUSDT daily trades
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=lob
+Group=lob
+WorkingDirectory=/opt/lob_system
+ExecStart=/opt/lob_system/venv/bin/python /opt/lob_system/scripts/run_daily_binance_vision_trades.py --root /opt/lob_system --symbol BTCUSDT

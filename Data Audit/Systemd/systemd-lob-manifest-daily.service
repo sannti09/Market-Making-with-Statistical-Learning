@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily LOB manifests and human summaries
+After=lob-gap-patch-daily.service
+
+[Service]
+Type=oneshot
+User=lob
+Group=lob
+WorkingDirectory=/opt/lob_system
+ExecStart=/opt/lob_system/venv/bin/python /opt/lob_system/scripts/run_daily_manifests_beta.py --root /opt/lob_system --skip-today

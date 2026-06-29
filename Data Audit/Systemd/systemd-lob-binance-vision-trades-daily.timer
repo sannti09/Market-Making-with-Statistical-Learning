@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Binance Vision daily trade download
+
+[Timer]
+OnCalendar=*-*-* 04:00:00 UTC
+Persistent=true
+Unit=lob-binance-vision-trades-daily.service
+
+[Install]
+WantedBy=timers.target

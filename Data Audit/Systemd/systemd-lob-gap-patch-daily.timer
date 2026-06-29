@@ -1,0 +1,10 @@
+[Unit]
+Description=Run LOB conservative gap patching daily
+
+[Timer]
+OnCalendar=*-*-* 01:50:00 UTC
+Persistent=true
+Unit=lob-gap-patch-daily.service
+
+[Install]
+WantedBy=timers.target

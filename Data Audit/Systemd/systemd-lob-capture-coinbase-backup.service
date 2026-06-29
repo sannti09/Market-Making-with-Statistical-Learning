@@ -1,0 +1,18 @@
+[Unit]
+Description=LOB capture Coinbase BTC-USD backup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lob
+Group=lob
+WorkingDirectory=/opt/lob_system
+ExecStart=/opt/lob_system/venv/bin/python /opt/lob_system/scripts/live_lob_capture.py --exchange coinbase --storage-exchange coinbase_backup --product BTC-USD --coinbase-channel level2_batch --rotate-hours 12 --root /opt/lob_system
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

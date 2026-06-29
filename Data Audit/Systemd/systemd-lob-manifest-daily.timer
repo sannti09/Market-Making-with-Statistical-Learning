@@ -1,0 +1,10 @@
+[Unit]
+Description=Run LOB manifest generation daily
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 UTC
+Persistent=true
+Unit=lob-manifest-daily.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run LOB quality reports daily
+
+[Timer]
+OnCalendar=*-*-* 01:20:00 UTC
+Persistent=true
+Unit=lob-quality-daily.service
+
+[Install]
+WantedBy=timers.target
