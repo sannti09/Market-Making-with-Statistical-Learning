@@ -1,0 +1,76 @@
+{
+  "pipeline_name": "lob_system_beta",
+  "pipeline_version": "2026-06-23.1",
+  "principles": {
+    "raw_data_policy": "Raw JSONL/JSONL.GZ captures are immutable. All fixes, patches, features, and LOB reconstructions are derived outputs.",
+    "patch_policy": "Backups are used conservatively to fill detected primary capture gaps. Full duplicate stream merges are diagnostic only unless explicitly promoted.",
+    "audit_policy": "Daily outputs must include SHA256 hashes for raw inputs, derived outputs, scripts, and this config file."
+  },
+  "capture": {
+    "binance": {
+      "storage_source": "binance",
+      "symbol": "BTCUSDT",
+      "websocket": "wss://data-stream.binance.vision/ws/btcusdt@depth@100ms",
+      "channel": "depth@100ms",
+      "continuity_rule": "Official Binance U/u sequence continuity."
+    },
+    "binance_backup": {
+      "storage_source": "binance_backup",
+      "symbol": "BTCUSDT",
+      "websocket": "wss://data-stream.binance.vision/ws/btcusdt@depth@100ms",
+      "channel": "depth@100ms",
+      "continuity_rule": "Independent backup stream checked with official Binance U/u sequence continuity."
+    },
+    "coinbase": {
+      "storage_source": "coinbase",
+      "product": "BTC-USD",
+      "websocket": "wss://ws-feed.exchange.coinbase.com",
+      "channel": "level2_batch",
+      "continuity_rule": "Timestamp, snapshot, segment, and backup-patch based checks because Coinbase Exchange level2 messages do not provide Binance-style U/u IDs."
+    },
+    "coinbase_backup": {
+      "storage_source": "coinbase_backup",
+      "product": "BTC-USD",
+      "websocket": "wss://ws-feed.exchange.coinbase.com",
+      "channel": "level2_batch",
+      "continuity_rule": "Independent backup stream checked with timestamp, snapshot, segment, and backup-patch based checks."
+    }
+  },
+  "quality_control": {
+    "temporal_gap_threshold_seconds": 2,
+    "statuses": [
+      "OK",
+      "SEGMENTED",
+      "CAPTURE_GAP_UNRESOLVED",
+      "DIAGNOSTIC_ONLY",
+      "REJECT_CORRUPT_JSON",
+      "REJECT_NO_SNAPSHOT",
+      "NO_UPDATES"
+    ],
+    "patched_statuses": [
+      "PATCH_OK",
+      "PATCH_PARTIAL",
+      "PATCH_FAILED_OR_UNRESOLVED"
+    ]
+  },
+  "daily_jobs_utc": {
+    "quality": "01:20",
+    "gap_patch": "01:50",
+    "manifest": "02:30"
+  },
+  "paths": {
+    "root": "/opt/lob_system",
+    "scripts": "/opt/lob_system/scripts",
+    "raw_live": "/opt/lob_system/raw_live",
+    "raw_done": "/opt/lob_system/raw_done",
+    "merged_beta": "/opt/lob_system/merged_beta",
+    "features_beta": "/opt/lob_system/features_beta",
+    "quality_reports": "/opt/lob_system/reports/quality_beta",
+    "merge_reports": "/opt/lob_system/reports/merge_beta",
+    "manifests": "/opt/lob_system/manifests"
+  },
+  "notes": [
+    "This config describes the current beta data-engineering pipeline, not final thesis model parameters.",
+    "Changing this file changes the config SHA256 recorded in future daily manifests."
+  ]
+}
